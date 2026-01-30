@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Login | EduMind</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:"Poppins",sans-serif;
+    }
+
+    body{
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      background:#faf9f6;
+    }
+
+    /* Header */
+    .header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(245, 158, 11, 0.1);
+      z-index: 1000;
+      padding: 1rem 0;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #f59e0b;
+      text-decoration: none;
+    }
+
+    .back-btn {
+      display: inline-block;
+      padding: 8px 16px;
+      background: #f59e0b;
+      color: white;
+      text-decoration: none;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background: #d97706;
+      transform: translateY(-2px);
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+    }
+
+    .login-container{
+      width:400px;
+      background:#fff;
+      padding:30px;
+      border-radius:12px;
+      box-shadow:0 10px 25px rgba(0,0,0,0.1);
+      text-align:center;
+    }
+
+    .login-container h2{
+      margin-bottom:6px;
+    }
+
+    .login-container p{
+      color:#64748b;
+      font-size:14px;
+      margin-bottom:20px;
+    }
+
+    input{
+      width:100%;
+      padding:12px;
+      margin:10px 0;
+      border:1px solid #cbd5e1;
+      border-radius:6px;
+      outline:none;
+    }
+    input:hover{
+        border: 2px solid #f59e0b;
+    }
+    input[type="email"]{
+      text-transform: lowercase;
+    }
+
+    .options{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      font-size:13px;
+      margin:8px 0 18px;
+    }
+
+    .options a{
+      text-decoration:none;
+      color:#f59e0b;
+    }
+
+    button{
+      width:100%;
+      padding:12px;
+      background:#f59e0b;
+      color:white;
+      border:none;
+      border-radius:25px;
+      font-size:16px;
+      cursor:pointer;
+    }
+
+    button:hover{
+      background:#d97706;
+      font-weight: bold;
+    }
+
+    .signup-link{
+      margin-top:15px;
+      font-size:14px;
+    }
+
+    .signup-link a{
+      color:#f59e0b;
+      text-decoration:none;
+      font-weight:600;
+    }
+
+    /* Footer */
+    .footer {
+      background: #ffffff;
+      padding: 20px 0;
+      border-top: 1px solid #e5e7eb;
+      margin-top: auto;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+      color: #64748b;
+      padding: 0 20px;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-container {
+        padding: 0 1rem;
+      }
+      
+      .logo {
+        font-size: 1.2rem;
+      }
+      
+      .back-btn {
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+      
+      .main-content {
+        padding: 1rem;
+      }
+      
+      .login-container {
+        width: 100%;
+        max-width: 350px;
+        padding: 25px 20px;
+      }
+      
+      .login-container h2 {
+        font-size: 1.5rem;
+      }
+      
+      input {
+        padding: 14px 12px;
+        font-size: 16px;
+      }
+      
+      button {
+        padding: 14px;
+        font-size: 16px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .login-container {
+        max-width: 320px;
+        padding: 20px 15px;
+      }
+      
+      .login-container h2 {
+        font-size: 1.3rem;
+      }
+      
+      .options {
+        font-size: 12px;
+      }
+    }
+  </style>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="nav-container">
+    <a href="/" class="logo">📘 EduSynth AI</a>
+    <a href="/" class="back-btn">← Back to Landing</a>
+  </div>
+</header>
+
+<main class="main-content">
+  <div class="login-container">
+    <h2>Student Login</h2>
+    <p>Login to access your learning dashboard</p>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div style="margin: 15px 0; padding: 10px; background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; border-radius: 6px; font-size: 14px;">
+          {% for message in messages %}
+            {{ message }}
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form action="/logingo" method="POST">
+      <input type="hidden" id="intended_feature" name="intended_feature" value="">
+      <input type="email" 
+             name="user_email" 
+             placeholder="Email Address" 
+             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+             title="Please enter a valid email address"
+             oninput="this.value = this.value.toLowerCase()"
+             required>
+      <input type="password" 
+             name="user_pass" 
+             placeholder="Password" 
+             pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}"
+             title="Password must be at least 6 characters with uppercase, lowercase, number and symbol"
+             required>
+
+      <div class="options">
+        <a href="/forget">Forgot Password?</a>
+      </div>
+
+      <button type="submit">Login</button>
+
+      <p class="signup-link">
+        New student? <a href="/signuppage">Create account</a>
+      </p>
+    </form>
+  </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-container">
+    <p>&copy; 2026 EduSynth AI. Powered by AI for Educational Excellence.</p>
+  </div>
+</footer>
+
+<script>
+// Check if user was redirected from analyzer with intended feature
+window.addEventListener('DOMContentLoaded', function() {
+  const intendedFeature = sessionStorage.getItem('intendedFeature');
+  if (intendedFeature) {
+    document.getElementById('intended_feature').value = intendedFeature;
+    sessionStorage.removeItem('intendedFeature');
+  }
+});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Web Content | EduSynth AI</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+body {
+  background: #faf9f6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.header {
+  background: #ffffff;
+  padding: 20px 0;
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 800;
+  color: #f59e0b;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-links a {
+  color: #64748b;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: #f59e0b;
+}
+
+/* Mobile Menu */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #64748b;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.mobile-nav {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 2000;
+}
+
+.mobile-nav.active {
+  display: block;
+}
+
+.mobile-nav-content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 280px;
+  height: 100%;
+  background: white;
+  padding: 20px;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+}
+
+.mobile-nav.active .mobile-nav-content {
+  transform: translateX(0);
+}
+
+.mobile-nav-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #f59e0b;
+}
+
+.mobile-nav-header .logo {
+  font-size: 18px;
+  font-weight: 700;
+  color: #f59e0b;
+}
+
+.mobile-nav-close {
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #64748b;
+  padding: 5px;
+}
+
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.mobile-nav-links a {
+  color: #64748b;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 15px 10px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  border-left: 3px solid transparent;
+}
+
+.mobile-nav-links a:hover,
+.mobile-nav-links a.active {
+  color: #f59e0b;
+  background: #fef3c7;
+  border-left-color: #f59e0b;
+}
+
+.mobile-logout {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.mobile-logout a {
+  background: #ef4444;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  display: inline-block;
+  transition: all 0.3s ease;
+  width: 100%;
+  text-align: center;
+}
+
+.mobile-logout a:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+}
+
+/* Logout Button */
+.nav-actions {
+  display: flex;
+  align-items: center;
+}
+
+.logout-btn {
+  background: #ef4444;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+}
+.main-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+}
+
+.content-container {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.page-header {
+  text-align: center;
+  color: #334155;
+  margin-bottom: 20px;
+}
+
+.page-header h1 {
+  font-size: 36px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.page-header p {
+  font-size: 18px;
+  color: #64748b;
+}
+
+/* Web Section */
+.web-section {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.web-section h2 {
+  color: #334155;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.web-form {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+  align-items: center;
+}
+
+.url-input {
+  flex: 1;
+  padding: 15px 20px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.url-input:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+}
+
+.summarize-btn {
+  background: #f59e0b;
+  color: #ffffff;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.summarize-btn:hover {
+  background: #d97706;
+  transform: translateY(-2px);
+}
+
+/* Result Section */
+.result-section {
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 30px;
+  margin-top: 20px;
+  display: none;
+}
+
+.result-content {
+  line-height: 1.7;
+  font-size: 15px;
+  white-space: pre-line;
+  text-align: left;
+}
+
+.result-content h3 {
+  margin: 15px 0 10px 0 !important;
+  color: #f59e0b !important;
+  font-size: 18px !important;
+  font-weight: 700;
+}
+
+.result-content h4 {
+  margin: 10px 0 8px 0 !important;
+  color: #374151 !important;
+  font-size: 16px !important;
+  font-weight: 600;
+}
+
+.result-content strong {
+  color: #f59e0b;
+  font-weight: 700;
+}
+
+/* Images Section */
+.images-section {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 2px solid #f59e0b;
+}
+
+.images-section h3 {
+  color: #f59e0b;
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.images-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-top: 15px;
+}
+
+.image-item {
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.image-item:hover {
+  transform: translateY(-5px);
+  border-color: #f59e0b;
+  box-shadow: 0 8px 25px rgba(245, 158, 11, 0.2);
+}
+
+.image-item img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.image-caption {
+  padding: 12px;
+  font-size: 12px;
+  color: #64748b;
+  text-align: center;
+  font-weight: 500;
+}
+
+/* Footer */
+.footer {
+  background: #ffffff;
+  padding: 20px 0;
+  border-top: 1px solid #e5e7eb;
+  margin-top: auto;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  color: #64748b;
+  padding: 0 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .web-form {
+    flex-direction: column;
+  }
+  
+  .url-input {
+    width: 100%;
+  }
+  
+  .nav-links {
+    display: none;
+  }
+  
+  .mobile-menu-btn {
+    display: block;
+  }
+  
+  .logout-btn {
+    display: none;
+  }
+  
+  .page-header h1 {
+    font-size: 28px;
+  }
+  
+  .web-section {
+    padding: 30px 20px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-content">
+    <div class="logo">📘 EduSynth AI</div>
+    <nav class="nav-links">
+      <a href="{{ url_for('dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('document') }}">Documents</a>
+      <a href="{{ url_for('youtube') }}">YouTube</a>
+      <a href="{{ url_for('gotowebpage') }}" class="active">Web Content</a>
+      <a href="{{ url_for('quiz') }}">Quiz</a>
+      <a href="{{ url_for('profile') }}">Profile</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+      <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main class="main-content">
+  <div class="content-container">
+    
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1>🌐 Web Content Summary</h1>
+      <p>Get AI-powered summaries of any website content</p>
+    </div>
+
+    <!-- Web Section -->
+    <div class="web-section">
+      <h2>🔗 Paste Website URL</h2>
+      
+      <div class="web-form">
+        <input type="url" id="webUrl" class="url-input" placeholder="https://example.com" required>
+        <button onclick="summarizeWeb()" class="summarize-btn">Get Summary</button>
+      </div>
+
+      <div id="result" class="result-section">
+        <div id="resultContent" class="result-content"></div>
+        <div id="imagesSection" class="images-section" style="display:none;">
+          <h3><strong>🖼️ Website Images</strong></h3>
+          <div id="imagesGrid" class="images-grid"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- Mobile Navigation -->
+<div id="mobileNav" class="mobile-nav">
+  <div class="mobile-nav-content">
+    <div class="mobile-nav-header">
+      <span class="logo">📘 EduSynth AI</span>
+      <button class="mobile-nav-close" onclick="toggleMobileMenu()">×</button>
+    </div>
+    <div class="mobile-nav-links">
+      <a href="{{ url_for('dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('document') }}">Documents</a>
+      <a href="{{ url_for('youtube') }}">YouTube</a>
+      <a href="{{ url_for('gotowebpage') }}" class="active">Web Content</a>
+      <a href="{{ url_for('quiz') }}">Quiz</a>
+      <a href="{{ url_for('profile') }}">Profile</a>
+    </div>
+    <div class="mobile-logout">
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-content">
+    <p>&copy; 2026 EduSynth AI. Powered by AI for Educational Excellence.</p>
+  </div>
+</footer>
+
+<script>
+async function summarizeWeb() {
+  const url = document.getElementById("webUrl").value.trim();
+  const result = document.getElementById("result");
+  const resultContent = document.getElementById("resultContent");
+  const imagesSection = document.getElementById("imagesSection");
+  const imagesGrid = document.getElementById("imagesGrid");
+
+  if (!url) {
+    resultContent.textContent = "❌ Please enter a website URL";
+    result.style.display = "block";
+    return;
+  }
+
+  resultContent.textContent = "⏳ Analyzing website content and extracting images...";
+  result.style.display = "block";
+  imagesSection.style.display = "none";
+
+  try {
+    const res = await fetch("/upload-web", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ url })
+    });
+
+    const data = await res.json();
+
+    if (data.summary) {
+      // Format summary with proper styling like document and YouTube pages
+      let formattedSummary = data.summary
+        .replace(/\*\*(.*?)\*\*/g, '<strong style="color: #f59e0b; font-weight: 700;">$1</strong>') // Bold text
+        .replace(/^## (.*$)/gm, '<h3 style="color: #f59e0b; margin: 15px 0 10px 0; font-size: 18px; font-weight: 700;">$1</h3>') // Headers
+        .replace(/^### (.*$)/gm, '<h4 style="color: #374151; margin: 10px 0 8px 0; font-size: 16px; font-weight: 600;">$1</h4>') // Sub-headers
+        .replace(/^(\d+\.)\s(.*)$/gm, '<div style="margin: 8px 0; padding-left: 15px;"><strong style="color: #f59e0b;">$1</strong> $2</div>') // Numbered lists
+        .replace(/^[•-]\s(.*)$/gm, '<div style="margin: 5px 0; padding-left: 20px; position: relative;"><span style="position: absolute; left: 0; color: #f59e0b;">•</span> $1</div>') // Bullet points
+        .replace(/\n\n/g, '<br><br>') // Double line breaks
+        .replace(/\n/g, '<br>') // Single line breaks
+        .replace(/(<br>){3,}/g, '<br><br>'); // Limit consecutive breaks
+      
+      formattedSummary = formattedSummary.replace(/^(<br>)+/, '');
+      resultContent.innerHTML = formattedSummary;
+      
+      // Display images if available
+      if (data.images && data.images.length > 0) {
+        imagesGrid.innerHTML = '';
+        data.images.forEach((img, index) => {
+          const imageItem = document.createElement('div');
+          imageItem.className = 'image-item';
+          imageItem.innerHTML = `
+            <img src="${img.src}" alt="${img.alt || 'Website Image ' + (index + 1)}" onerror="this.parentElement.style.display='none'" loading="lazy">
+            <div class="image-caption">${img.alt || 'Image ' + (index + 1)}</div>
+          `;
+          imagesGrid.appendChild(imageItem);
+        });
+        imagesSection.style.display = "block";
+      } else {
+        imagesSection.style.display = "none";
+      }
+    } else {
+      resultContent.textContent = "❌ " + data.error;
+    }
+  } catch (e) {
+    resultContent.textContent = "❌ Server not responding. Please try again.";
+  }
+}
+</script>
+
+<script>
+// Mobile menu toggle
+function toggleMobileMenu() {
+  const mobileNav = document.getElementById('mobileNav');
+  mobileNav.classList.toggle('active');
+}
+
+// Close mobile menu when clicking outside
+document.getElementById('mobileNav').addEventListener('click', function(e) {
+  if (e.target === this) {
+    toggleMobileMenu();
+  }
+});
+</script>
+
+</body>
+</html>

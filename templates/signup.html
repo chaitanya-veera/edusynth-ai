@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Signup | EduSynth AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<style>
+  * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: #faf9f6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.header {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.1);
+  z-index: 1000;
+  padding: 1rem 0;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #f59e0b;
+  text-decoration: none;
+}
+
+.back-btn {
+  display: inline-block;
+  padding: 8px 16px;
+  background: #f59e0b;
+  color: white;
+  text-decoration: none;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+  background: #d97706;
+  transform: translateY(-2px);
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.signup-container {
+  width: 400px;
+  margin: 30px auto;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.signup-container h2 {
+  margin-bottom: 8px;
+}
+
+.signup-container p {
+  color: #64748b;
+  margin-bottom: 20px;
+}
+
+input, select {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  outline: none;
+}
+input[type="email"]{
+  text-transform: lowercase;
+}
+select:hover{
+    border: 2px solid #f59e0b;
+}
+input:hover{
+  border: 2px solid #f59e0b;
+}
+
+button {
+  width: 100%;
+  margin-top: 15px;
+  padding: 12px;
+  background: #f59e0b;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #d97706;
+  color: white;
+  font-weight: bold;
+}
+
+.login-link {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.login-link a {
+  color: #f59e0b;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* Footer */
+.footer {
+  background: #ffffff;
+  padding: 20px 0;
+  border-top: 1px solid #e5e7eb;
+  margin-top: auto;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  color: #64748b;
+  padding: 0 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-container {
+    padding: 0 1rem;
+  }
+  
+  .logo {
+    font-size: 1.2rem;
+  }
+  
+  .back-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+  
+  .main-content {
+    padding: 1rem;
+  }
+  
+  .signup-container {
+    width: 100%;
+    max-width: 350px;
+    padding: 25px 20px;
+    margin: 20px auto;
+  }
+  
+  .signup-container h2 {
+    font-size: 1.5rem;
+  }
+  
+  input, select {
+    padding: 14px 12px;
+    font-size: 16px;
+    margin: 6px 0;
+  }
+  
+  button {
+    padding: 14px;
+    font-size: 16px;
+    margin-top: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .signup-container {
+    max-width: 320px;
+    padding: 20px 15px;
+  }
+  
+  .signup-container h2 {
+    font-size: 1.3rem;
+  }
+  
+  .signup-container p {
+    font-size: 13px;
+  }
+  
+  input, select {
+    font-size: 15px;
+  }
+}
+
+</style>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="nav-container">
+    <a href="/" class="logo">📘 EduSynth AI</a>
+    <a href="/" class="back-btn">← Back to Landing</a>
+  </div>
+</header>
+
+<main class="main-content">
+<div class="signup-container">
+  <h2>Student Registration</h2>
+  <p>Create your EduMind account</p>
+
+  <!-- Flash Messages -->
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      {% for message in messages %}
+        {% if "successful" in message.lower() %}
+          <div id="successMessage" style="margin: 15px 0; padding: 10px; background: #d4edda; color: #155724; border: 1px solid #c3e6cb; border-radius: 6px; font-size: 14px;">
+            {{ message }}
+          </div>
+        {% else %}
+          <div style="margin: 15px 0; padding: 10px; background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; border-radius: 6px; font-size: 14px;">
+            {{ message }}
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+  {% endwith %}
+
+  <form action="/signupgo" method="POST" autocomplete="off">
+
+  <input type="text"
+         name="user"
+         placeholder="Full Name"
+         autocomplete="off"
+         required>
+
+  <input type="email"
+         name="user_email"
+         placeholder="Email Address"
+         autocomplete="off"
+         pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+         title="Please enter a valid email address"
+         oninput="this.value = this.value.toLowerCase()"
+         required>
+
+  <input type="tel"
+         name="user_mobile"
+         placeholder="Mobile Number"
+         autocomplete="off"
+         pattern="[0-9]{10}"
+         maxlength="10"
+         title="Please enter exactly 10 digits"
+         oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)"
+         required>
+
+  <input type="text"
+         name="college"
+         id="college"
+         placeholder="College Name"
+         autocomplete="off"
+         style="text-transform: uppercase;"
+         oninput="this.value = this.value.toUpperCase()"
+         required>
+
+  <input type="text"
+         name="branch"
+         id="branch"
+         placeholder="Branch / Department"
+         autocomplete="off"
+         style="text-transform: uppercase;"
+         oninput="this.value = this.value.toUpperCase()"
+         required>
+
+  <select name="year" required>
+    <option value="">Select Year / Semester</option>
+    <option value="1st Year">1st Year</option>
+    <option value="2nd Year">2nd Year</option>
+    <option value="3rd Year">3rd Year</option>
+    <option value="4th Year">4th Year</option>
+  </select>
+
+  <select name="language" required>
+    <option value="">Preferred Language</option>
+    <option value="English">English</option>
+    <option value="Telugu">Telugu</option>
+    <option value="Hindi">Hindi</option>
+  </select>
+
+  <input type="password"
+         name="user_pass"
+         id="password"
+         placeholder="Password (min 6 chars: A-Z, a-z, 0-9, symbol)"
+         autocomplete="new-password"
+         pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}"
+         title="Password must be at least 6 characters with uppercase, lowercase, number and symbol"
+         required>
+
+  <input type="password"
+         name="user_cpass"
+         id="confirmPassword"
+         placeholder="Confirm Password"
+         autocomplete="new-password"
+         required>
+
+  <button type="submit" onclick="return validateForm()">Register</button>
+
+  <p class="login-link">
+    Already have an account? <a href="/login">Login</a>
+  </p>
+
+</form>
+
+</div>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-container">
+    <p>&copy; 2026 EduSynth AI. Powered by AI for Educational Excellence.</p>
+  </div>
+</footer>
+
+<script>
+function validateForm() {
+  const password = document.getElementById('password').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
+  
+  if (password !== confirmPassword) {
+    alert('❌ Passwords do not match!');
+    return false;
+  }
+  
+  const passwordRegex = /(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{6,}/;
+  if (!passwordRegex.test(password)) {
+    alert('❌ Password must be at least 6 characters with uppercase, lowercase, number and symbol!');
+    return false;
+  }
+  
+  return true;
+}
+
+// Auto-redirect success message after 5 seconds
+window.onload = function() {
+  const successMessage = document.getElementById('successMessage');
+  if (successMessage) {
+    setTimeout(function() {
+      window.location.href = '/login';
+    }, 5000);
+  }
+};
+</script>
+
+</body>
+</html>

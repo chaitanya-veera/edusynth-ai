@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Analyzer | EduSynth AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Poppins", sans-serif;
+      background: #faf9f6;
+      color: #1e293b;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    .header {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      padding: 20px 0;
+      border-bottom: 1px solid rgba(229, 231, 235, 0.8);
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+      color: #f59e0b;
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 30px;
+    }
+
+    .nav-links a {
+      color: #64748b;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: #f59e0b;
+    }
+
+    .signin {
+      text-decoration: none;
+      color: white;
+      font-weight: 500;
+      padding: 8px 20px;
+      border-radius: 20px;
+      background: #f59e0b;
+      transition: all 0.3s ease;
+    }
+
+    .signin:hover {
+      background-color: #d97706;
+      transform: translateY(-2px);
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      padding: 60px 20px;
+    }
+
+    .analyzer-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .analyzer-section h1 {
+      font-size: 42px;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: #1e293b;
+    }
+
+    .analyzer-section p {
+      font-size: 18px;
+      color: #64748b;
+      margin-bottom: 50px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin-top: 50px;
+    }
+
+    .feature-card {
+      background: white;
+      border-radius: 18px;
+      padding: 40px 30px;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 30px rgba(245, 158, 11, 0.2);
+      border: 2px solid #f59e0b;
+    }
+
+    .feature-icon {
+      width: 80px;
+      height: 80px;
+      background: #f59e0b;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 36px;
+      margin: 0 auto 25px;
+      color: white;
+    }
+
+    .feature-card h3 {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: #1e293b;
+    }
+
+    .feature-card p {
+      font-size: 16px;
+      color: #64748b;
+      line-height: 1.6;
+      margin-bottom: 25px;
+    }
+
+    .feature-btn {
+      background: #f59e0b;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .feature-btn:hover {
+      background: #d97706;
+      transform: translateY(-2px);
+    }
+
+    .login-notice {
+      background: #fef3c7;
+      border: 1px solid #f59e0b;
+      border-radius: 12px;
+      padding: 20px;
+      margin: 40px auto;
+      max-width: 600px;
+      text-align: center;
+    }
+
+    .login-notice p {
+      color: #92400e;
+      margin-bottom: 15px;
+    }
+
+    .login-notice a {
+      background: #f59e0b;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 20px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .login-notice a:hover {
+      background: #d97706;
+    }
+
+    /* Footer */
+    .footer {
+      background: #ffffff;
+      padding: 20px 0;
+      border-top: 1px solid #e5e7eb;
+      margin-top: auto;
+    }
+
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+      color: #64748b;
+      padding: 0 20px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header-content {
+        padding: 0 15px;
+      }
+      
+      .nav-links {
+        display: none;
+      }
+      
+      .logo {
+        font-size: 20px;
+      }
+      
+      .analyzer-section h1 {
+        font-size: 32px;
+      }
+      
+      .analyzer-section p {
+        font-size: 16px;
+        padding: 0 10px;
+      }
+      
+      .features-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .feature-card {
+        padding: 30px 20px;
+      }
+      
+      .feature-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 28px;
+      }
+      
+      .feature-card h3 {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-content">
+    <a href="/" class="logo">📘 EduSynth AI</a>
+    <nav class="nav-links">
+      <a href="/">Home</a>
+      <a href="/analyzer" class="active">Analyzer</a>
+      <a href="/about">About</a>
+    </nav>
+    <div class="nav-actions">
+      <a href="/login" class="signin">Sign In</a>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main class="main-content">
+  <div class="analyzer-section">
+    <h1>AI-Powered Content Analyzer</h1>
+    <p>Transform any educational content into interactive learning experiences with our advanced AI tools.</p>
+
+    <div class="login-notice">
+      <p><strong>Ready to get started?</strong> Sign in to access all analyzer features and save your work.</p>
+      <a href="/login">Sign In Now</a>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card" onclick="redirectToLogin('document')">
+        <div class="feature-icon">📄</div>
+        <h3>PDF Document Analyzer</h3>
+        <p>Upload PDF documents and get AI-powered summaries, key concepts extraction, and interactive Q&A capabilities.</p>
+        <a href="#" class="feature-btn">Analyze PDF</a>
+      </div>
+
+      <div class="feature-card" onclick="redirectToLogin('youtube')">
+        <div class="feature-icon">🎥</div>
+        <h3>YouTube Video Analyzer</h3>
+        <p>Extract transcripts, generate summaries, and create interactive discussions from YouTube educational videos.</p>
+        <a href="#" class="feature-btn">Analyze Video</a>
+      </div>
+
+      <div class="feature-card" onclick="redirectToLogin('webpages')">
+        <div class="feature-icon">🌐</div>
+        <h3>Website Content Analyzer</h3>
+        <p>Summarize web articles, extract key information, and create structured learning materials from any website.</p>
+        <a href="#" class="feature-btn">Analyze Website</a>
+      </div>
+
+      <div class="feature-card" onclick="redirectToLogin('quiz')">
+        <div class="feature-icon">🧠</div>
+        <h3>AI Quiz Generator</h3>
+        <p>Generate custom quizzes on any topic with multiple-choice questions, instant feedback, and detailed explanations.</p>
+        <a href="#" class="feature-btn">Generate Quiz</a>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-content">
+    <p>&copy; 2026 EduSynth AI. Powered by AI for Educational Excellence.</p>
+  </div>
+</footer>
+
+<script>
+function redirectToLogin(feature) {
+  // Store the intended feature in sessionStorage
+  sessionStorage.setItem('intendedFeature', feature);
+  // Redirect to login
+  window.location.href = '/login';
+}
+</script>
+
+</body>
+</html>

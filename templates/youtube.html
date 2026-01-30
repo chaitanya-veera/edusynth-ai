@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>YouTube | EduSynth AI</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+body {
+  background: #faf9f6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header */
+.header {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(229, 231, 235, 0.8);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: 800;
+  color: #f59e0b;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-links a {
+  color: #64748b;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: #f59e0b;
+}
+
+/* Mobile Menu */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #64748b;
+  cursor: pointer;
+}
+
+.mobile-nav {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 2000;
+}
+
+.mobile-nav-content {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 250px;
+  height: 100%;
+  background: white;
+  padding: 20px;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+
+.mobile-nav.active .mobile-nav-content {
+  transform: translateX(0);
+}
+
+.mobile-nav-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.mobile-nav-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.mobile-nav-links {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.mobile-nav-links a {
+  color: #64748b;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 10px 0;
+  border-bottom: 1px solid #f3f4f6;
+  transition: color 0.3s ease;
+}
+
+.mobile-nav-links a:hover,
+.mobile-nav-links a.active {
+  color: #f59e0b;
+}
+
+.mobile-logout {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.mobile-logout a {
+  background: #ef4444;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: 500;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.mobile-logout a:hover {
+  background: #dc2626;
+}
+
+/* Logout Button */
+.nav-actions {
+  display: flex;
+  align-items: center;
+}
+
+.logout-btn {
+  background: #ef4444;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.logout-btn:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+}
+
+/* Main Content */
+.main-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 40px 20px;
+}
+
+.content-container {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.page-header {
+  text-align: center;
+  color: #334155;
+  margin-bottom: 20px;
+}
+
+.page-header h1 {
+  font-size: 36px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.page-header p {
+  font-size: 18px;
+  color: #64748b;
+}
+
+/* YouTube Section */
+.youtube-section {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 40px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.youtube-section h2 {
+  color: #334155;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.youtube-form {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+  align-items: center;
+}
+
+.url-input {
+  flex: 1;
+  padding: 15px 20px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 16px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.url-input:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+}
+
+.summarize-btn {
+  background: #f59e0b;
+  color: #ffffff;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.summarize-btn:hover {
+  background: #d97706;
+  transform: translateY(-2px);
+}
+
+/* Result Section */
+.result-section {
+  background: #f8fafc;
+  border-radius: 16px;
+  padding: 30px;
+  margin-top: 20px;
+  display: none;
+}
+
+.result-content {
+  line-height: 1.7;
+  font-size: 15px;
+}
+
+.point {
+  background: #ffffff;
+  border-left: 4px solid #f59e0b;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* Video Info Section */
+.video-info {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 20px;
+  margin-top: 20px;
+  display: flex;
+  gap: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.video-thumbnail {
+  flex-shrink: 0;
+}
+
+.video-thumbnail img {
+  width: 200px;
+  height: 112px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.video-details {
+  flex: 1;
+}
+
+.video-details h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #334155;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+.video-details p {
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.video-stats {
+  display: flex;
+  gap: 20px;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+/* Chatbot Section */
+.chatbot-section {
+  background: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  margin-top: 20px;
+}
+
+.chat-header {
+  background: #f59e0b;
+  color: white;
+  padding: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-header h3 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.summary-btn {
+  background: rgba(255,255,255,0.15);
+  color: white;
+  border: 1px solid rgba(255,255,255,0.3);
+  padding: 10px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.summary-btn:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+.chat-messages {
+  height: 400px;
+  overflow-y: auto;
+  padding: 25px;
+  background: #fafafa;
+}
+
+.message {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.message.user {
+  flex-direction: row-reverse;
+}
+
+.message-content {
+  max-width: 75%;
+  padding: 15px 20px;
+  border-radius: 18px;
+  line-height: 1.6;
+  font-size: 14px;
+  word-wrap: break-word;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.message.user .message-content {
+  background: #f59e0b;
+  color: white;
+  border-bottom-right-radius: 6px;
+}
+
+.message.bot .message-content {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-bottom-left-radius: 6px;
+  color: #334155;
+  white-space: pre-line;
+  line-height: 1.6;
+}
+
+.message-content h3 {
+  margin: 15px 0 10px 0 !important;
+  color: #f59e0b !important;
+  font-size: 16px !important;
+  font-weight: 700;
+}
+
+.message-content h4 {
+  margin: 10px 0 8px 0 !important;
+  color: #374151 !important;
+  font-size: 14px !important;
+  font-weight: 600;
+}
+
+.message-content strong {
+  color: #f59e0b;
+  font-weight: 700;
+}
+
+.message-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+}
+
+.message.user .message-avatar {
+  background: #1e40af;
+}
+
+.message.bot .message-avatar {
+  background: #f59e0b;
+}
+
+.chat-input {
+  padding: 25px;
+  background: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  gap: 15px;
+}
+
+.chat-input input {
+  flex: 1;
+  padding: 15px 20px;
+  border: 2px solid #e2e8f0;
+  border-radius: 12px;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.3s ease;
+}
+
+.chat-input input:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+}
+
+.chat-input button {
+  background: #f59e0b;
+  color: white;
+  border: none;
+  padding: 15px 25px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.chat-input button:hover {
+  background: #d97706;
+  transform: translateY(-2px);
+}
+
+.chat-input button:disabled {
+  background: #cbd5e0;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.typing {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #718096;
+  font-style: italic;
+}
+
+.typing-dots {
+  display: flex;
+  gap: 3px;
+}
+
+.typing-dots span {
+  width: 6px;
+  height: 6px;
+  background: #f59e0b;
+  border-radius: 50%;
+  animation: typing 1.4s infinite;
+}
+
+.typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+.typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typing {
+  0%, 60%, 100% { transform: translateY(0); }
+  30% { transform: translateY(-8px); }
+}
+
+/* Footer */
+.footer {
+  background: #ffffff;
+  padding: 20px 0;
+  border-top: 1px solid #e5e7eb;
+  margin-top: auto;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+  color: #64748b;
+  padding: 0 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .youtube-form {
+    flex-direction: column;
+  }
+  
+  .url-input {
+    width: 100%;
+  }
+  
+  .nav-links {
+    display: none;
+  }
+  
+  .mobile-menu-btn {
+    display: block;
+  }
+  
+  .logout-btn {
+    display: none;
+  }
+  
+  .page-header h1 {
+    font-size: 28px;
+  }
+  
+  .youtube-section {
+    padding: 30px 20px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-content">
+    <div class="logo">📘 EduSynth AI</div>
+    <nav class="nav-links">
+      <a href="{{ url_for('dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('document') }}">Documents</a>
+      <a href="{{ url_for('youtube') }}" class="active">YouTube</a>
+      <a href="{{ url_for('gotowebpage') }}">Web Content</a>
+      <a href="{{ url_for('quiz') }}">Quiz</a>
+      <a href="{{ url_for('profile') }}">Profile</a>
+    </nav>
+    <div class="nav-actions">
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()">☰</button>
+      <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+    </div>
+  </div>
+</header>
+
+<!-- Main Content -->
+<main class="main-content">
+  <div class="content-container">
+    
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1>📺 YouTube Video Summary</h1>
+      <p>Get AI-powered summaries of YouTube videos instantly</p>
+    </div>
+
+    <!-- YouTube Section -->
+    <div class="youtube-section">
+      <h2>🎥 Paste YouTube URL</h2>
+      
+      <div class="youtube-form">
+        <input type="url" id="ytUrl" class="url-input" placeholder="https://www.youtube.com/watch?v=..." required>
+        <button onclick="analyzeVideo()" class="summarize-btn">Analyze Video</button>
+      </div>
+
+      <!-- Video Info Section -->
+      <div id="videoInfo" class="video-info" style="display:none;">
+        <div class="video-thumbnail">
+          <img id="videoThumbnail" src="" alt="Video thumbnail">
+        </div>
+        <div class="video-details">
+          <h3 id="videoTitle"></h3>
+          <p id="videoDescription"></p>
+          <div class="video-stats">
+            <span id="videoDuration"></span>
+            <span id="videoViews"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Summary Section -->
+      <div id="summarySection" class="result-section" style="display:none;">
+        <h3>📝 Video Summary</h3>
+        <div id="summaryContent" class="result-content"></div>
+      </div>
+    </div>
+
+    <!-- Chatbot Section -->
+    <div id="chatbot" class="chatbot-section" style="display:none;">
+      <div class="chat-header">
+        <h3>🤖 Ask About This Video</h3>
+        <button id="getSummaryBtn" class="summary-btn">📝 Get Summary</button>
+      </div>
+      <div id="chatMessages" class="chat-messages"></div>
+      <div class="chat-input">
+        <input type="text" id="questionInput" placeholder="Ask anything about this video..." maxlength="500">
+        <button id="askBtn">Send</button>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- Mobile Navigation -->
+<div id="mobileNav" class="mobile-nav">
+  <div class="mobile-nav-content">
+    <div class="mobile-nav-header">
+      <span class="logo">📘 EduSynth AI</span>
+      <button class="mobile-nav-close" onclick="toggleMobileMenu()">×</button>
+    </div>
+    <div class="mobile-nav-links">
+      <a href="{{ url_for('dashboard') }}">Dashboard</a>
+      <a href="{{ url_for('document') }}">Documents</a>
+      <a href="{{ url_for('youtube') }}" class="active">YouTube</a>
+      <a href="{{ url_for('gotowebpage') }}">Web Content</a>
+      <a href="{{ url_for('quiz') }}">Quiz</a>
+      <a href="{{ url_for('profile') }}">Profile</a>
+    </div>
+    <div class="mobile-logout">
+      <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-content">
+    <p>&copy; 2026 EduSynth AI. Powered by AI for Educational Excellence.</p>
+  </div>
+</footer>
+
+<script>
+let videoContent = '';
+let chatHistory = [];
+
+async function analyzeVideo() {
+  const url = document.getElementById("ytUrl").value.trim();
+  const videoInfo = document.getElementById("videoInfo");
+  const summarySection = document.getElementById("summarySection");
+  const chatbot = document.getElementById("chatbot");
+
+  if (!url) {
+    alert('Please enter a YouTube URL');
+    return;
+  }
+
+  // Show loading state
+  videoInfo.style.display = "flex";
+  document.getElementById("videoTitle").textContent = "Loading video information...";
+  document.getElementById("videoDescription").textContent = "";
+  document.getElementById("videoThumbnail").src = "";
+
+  try {
+    // Get video info and transcript
+    const res = await fetch("/analyze-youtube", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ url })
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+      // Display video info
+      document.getElementById("videoTitle").textContent = data.title || "YouTube Video";
+      document.getElementById("videoDescription").textContent = data.description || "No description available";
+      document.getElementById("videoThumbnail").src = data.thumbnail || "";
+      document.getElementById("videoDuration").textContent = data.duration || "";
+      document.getElementById("videoViews").textContent = data.views || "";
+      
+      // Store transcript and transcript availability for chat
+      videoContent = data.transcript || "";
+      const hasTranscript = data.has_transcript !== false;
+      
+      // Hide summary section completely
+      summarySection.style.display = "none";
+      
+      // Show chatbot
+      chatbot.style.display = "block";
+      
+      if (hasTranscript) {
+        addMessage('bot', '👋 Video analyzed! Ask me questions about the content or click "Get Summary" for more details.');
+      } else {
+        addMessage('bot', '👋 Video loaded! This video doesn\'t have a transcript, but I can still help with general questions about the topic.');
+      }
+      
+    } else {
+      document.getElementById("videoTitle").textContent = "Error: " + data.error;
+      document.getElementById("videoDescription").textContent = "";
+    }
+  } catch (error) {
+    document.getElementById("videoTitle").textContent = "Network error. Please try again.";
+    document.getElementById("videoDescription").textContent = "";
+  }
+}
+
+// Summary button in chat
+document.getElementById("getSummaryBtn").addEventListener("click", async () => {
+  addMessage('user', '📝 Please provide a detailed summary of this video');
+  addTypingIndicator();
+  
+  try {
+    const res = await fetch('/chat-youtube', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        question: 'Please provide a comprehensive summary of this video',
+        video_content: videoContent,
+        has_transcript: videoContent.length > 0,
+        history: chatHistory
+      })
+    });
+    
+    const data = await res.json();
+    removeTypingIndicator();
+    
+    if (data.success) {
+      addMessage('bot', data.response);
+      chatHistory.push(
+        { role: 'user', content: 'Please provide a comprehensive summary of this video' },
+        { role: 'assistant', content: data.response }
+      );
+    } else {
+      addMessage('bot', '❌ Sorry, I couldn\'t generate a summary. Please try again.');
+    }
+  } catch (error) {
+    removeTypingIndicator();
+    addMessage('bot', '❌ Network error. Please try again.');
+  }
+});
+
+// Chat functionality
+document.getElementById("askBtn").addEventListener("click", sendMessage);
+document.getElementById("questionInput").addEventListener("keypress", (e) => {
+  if (e.key === "Enter") sendMessage();
+});
+
+async function sendMessage() {
+  const input = document.getElementById("questionInput");
+  const question = input.value.trim();
+  
+  if (!question) return;
+  
+  input.value = '';
+  input.disabled = true;
+  document.getElementById("askBtn").disabled = true;
+  
+  addMessage('user', question);
+  addTypingIndicator();
+  
+  try {
+    const res = await fetch('/chat-youtube', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        question: question,
+        video_content: videoContent,
+        has_transcript: videoContent.length > 0,
+        history: chatHistory
+      })
+    });
+    
+    const data = await res.json();
+    removeTypingIndicator();
+    
+    if (data.success) {
+      addMessage('bot', data.response);
+      chatHistory.push(
+        { role: 'user', content: question },
+        { role: 'assistant', content: data.response }
+      );
+    } else {
+      addMessage('bot', '❌ Sorry, I couldn\'t process your question. Please try again.');
+    }
+  } catch (error) {
+    removeTypingIndicator();
+    addMessage('bot', '❌ Network error. Please check your connection and try again.');
+  }
+  
+  input.disabled = false;
+  document.getElementById("askBtn").disabled = false;
+  input.focus();
+}
+
+function addMessage(sender, content) {
+  const messagesDiv = document.getElementById("chatMessages");
+  const messageDiv = document.createElement("div");
+  messageDiv.className = `message ${sender}`;
+  
+  const avatar = sender === 'user' ? '👤' : '🤖';
+  
+  // Format content for better display
+  let formattedContent = content;
+  if (sender === 'bot') {
+    // Convert markdown-style formatting to HTML for structured display
+    formattedContent = content
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>') // Bold text
+      .replace(/^## (.*$)/gm, '<h3 style="color: #f59e0b; margin: 15px 0 10px 0; font-size: 16px; font-weight: 700;">$1</h3>') // Headers
+      .replace(/^### (.*$)/gm, '<h4 style="color: #374151; margin: 10px 0 8px 0; font-size: 14px; font-weight: 600;">$1</h4>') // Sub-headers
+      .replace(/^(\d+\.)\s(.*)$/gm, '<div style="margin: 8px 0; padding-left: 15px;"><strong style="color: #f59e0b;">$1</strong> $2</div>') // Numbered lists
+      .replace(/^[•-]\s(.*)$/gm, '<div style="margin: 5px 0; padding-left: 20px; position: relative;"><span style="position: absolute; left: 0; color: #f59e0b;">•</span> $1</div>') // Bullet points
+      .replace(/\n\n/g, '<br><br>') // Double line breaks
+      .replace(/\n/g, '<br>') // Single line breaks
+      .replace(/(<br>){3,}/g, '<br><br>'); // Limit consecutive breaks
+    
+    // Clean up extra breaks at start
+    formattedContent = formattedContent.replace(/^(<br>)+/, '');
+  }
+  
+  messageDiv.innerHTML = `
+    <div class="message-avatar">${avatar}</div>
+    <div class="message-content">${formattedContent}</div>
+  `;
+  
+  messagesDiv.appendChild(messageDiv);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+function addTypingIndicator() {
+  const messagesDiv = document.getElementById("chatMessages");
+  const typingDiv = document.createElement("div");
+  typingDiv.className = "message bot typing-message";
+  typingDiv.innerHTML = `
+    <div class="message-avatar">🤖</div>
+    <div class="message-content typing">
+      Thinking<div class="typing-dots"><span></span><span></span><span></span></div>
+    </div>
+  `;
+  
+  messagesDiv.appendChild(typingDiv);
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+function removeTypingIndicator() {
+  const typingMessage = document.querySelector('.typing-message');
+  if (typingMessage) typingMessage.remove();
+}
+
+// Mobile menu toggle
+function toggleMobileMenu() {
+  const mobileNav = document.getElementById('mobileNav');
+  mobileNav.classList.toggle('active');
+}
+
+// Close mobile menu when clicking outside
+document.getElementById('mobileNav').addEventListener('click', function(e) {
+  if (e.target === this) {
+    toggleMobileMenu();
+  }
+});
+</script>
+
+</body>
+</html>
